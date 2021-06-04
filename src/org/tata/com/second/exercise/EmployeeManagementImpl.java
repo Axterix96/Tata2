@@ -1,54 +1,73 @@
 package org.tata.com.second.exercise;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class EmployeeManagementImpl extends BankEmployee implements EmployeeManagement{
+public class EmployeeManagementImpl implements EmployeeManagement {
     private HashSet<BankEmployee> employeeSet;
 
-    public EmployeeManagementImpl(int empId, String empName, String branchName, String dept, double salary, boolean permanentCheck) {
-        super(empId, empName, branchName, dept, salary, permanentCheck);
+    public HashSet<BankEmployee> getEmployeeSet() {
+        return employeeSet;
+    }
+
+    public void setEmployeeSet(HashSet<BankEmployee> employeeSet) {
+        this.employeeSet = employeeSet;
     }
 
     @Override
-    public void getSalaryHike() {
-        for (BankEmployee ban: employeeSet) {
-            if(ban.isPermanentCheck()== true && ban.getSalary()>20000){
-                ban.setSalary(20000*1.1);
+    public HashSet<BankEmployee> getSalaryHike() {
+
+        for (BankEmployee ban : employeeSet) {
+            if (ban.isPermanentCheck() == true && ban.getSalary() > 20000) {
+                ban.setSalary(20000 * 1.1);
                 System.out.println("New Salary " + ban.getSalary());
-            }else if(ban.isPermanentCheck()== false && ban.getSalary()>20000){
-                ban.setSalary(20000*1.08);
+            } else if (ban.isPermanentCheck() == false && ban.getSalary() > 20000) {
+                ban.setSalary(20000 * 1.08);
                 System.out.println("New Salary " + ban.getSalary());
-            }else{
-                ban.setSalary(20000*1.06);
+            } else {
+                ban.setSalary(20000 * 1.06);
                 System.out.println("New Salary " + ban.getSalary());
             }
+            ban.setPermanentCheck(true);
+
         }
+        return employeeSet;
     }
-    public boolean addEmployee(BankEmployee be){
-        for (BankEmployee ban: employeeSet) {
-            if(!employeeSet.add(ban)){
-                System.out.println("Elemento duplicado: " + ban);
+
+    public boolean addEmployee(BankEmployee be) {
+        for (BankEmployee ban : employeeSet) {
+            if (ban == be) {
+                System.out.println("Already exist: " + ban);
                 return false;
             }
 
         }
-        System.out.println(employeeSet.size() + "elementos no duplicados" + employeeSet);
+        employeeSet.add(be);
+        System.out.println(employeeSet.size() + " added " + be);
         return true;
     }
 
-public Map<Integer, BankEmployee> getEmployee(BankEmployee ban){
-Map<Integer, BankEmployee> map = new HashMap<>();
-if(ban.getDept()=="Admin") {
-    map.put(ban.getEmpId(), ban);
-}
+    public Map<Integer, BankEmployee> getEmployee() {
+        HashSet<BankEmployee> hash = new HashSet<>();
+        for(BankEmployee em: employeeSet) {
+            if (em.getDept() == "Admin") {
+                hash = employeeSet;
+            }
+        }
+        Map<Integer, BankEmployee> map = hash.stream().collect(Collectors.toMap(x -> x.getEmpId(), x -> x));
+        return map;
+    }
 
-return map;
-}
-
-public List<BankEmployee> sortPermanentEmployees(List<BankEmployee> ban){
-List<BankEmployee> listEmp = new ArrayList<>();
-   listEmp.sort(Comparator.comparing(BankEmployee::getEmpId));
-        return listEmp;
-}
+    public HashSet<BankEmployee> sortPermanentEmployees() {
+        List<BankEmployee> listEmp = employeeSet.stream().sorted(Comparator.comparing(BankEmployee::getEmpId)).collect(Collectors.toList());
+        for(BankEmployee em : listEmp) {
+        if(em.isPermanentCheck()){
+            System.out.println("em = " + em);
+        }
+        }
+        HashSet<BankEmployee> h = new HashSet<>();
+        h.addAll(listEmp);
+        return h;
+    }
 
 }

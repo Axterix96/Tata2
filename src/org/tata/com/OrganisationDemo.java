@@ -21,7 +21,10 @@ public class OrganisationDemo {
         ob.addOrganisation(orga);
         ob.getRating(1);
         ob.getRating(2);
-        ob.getOrgList('A');
+        List<Organization> orgList = ob.getOrgList('A');
+        for(Organization or : orgList){
+            System.out.println("Name: "+ or.getOrgName());
+        }
     }
 
 

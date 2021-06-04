@@ -9,6 +9,18 @@ public class BankEmployee {
     private double salary;
     private boolean permanentCheck;
 
+    @Override
+    public String toString() {
+        return "BankEmployee{" +
+                "empId=" + empId +
+                ", empName='" + empName + '\'' +
+                ", branchName='" + branchName + '\'' +
+                ", dept='" + dept + '\'' +
+                ", salary=" + salary +
+                ", permanentCheck=" + permanentCheck +
+                '}';
+    }
+
     public BankEmployee(int empId, String empName, String branchName, String dept, double salary, boolean permanentCheck) {
         this.empId = empId;
         this.empName = empName;

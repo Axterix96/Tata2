@@ -32,7 +32,6 @@ abstract class OrgFunctionalities {
     public Organization getRating(int id) {
         Organization org = null;
         for (Organization o : orgList) {
-            System.out.println(o.getOrgId()+" "+ id);
             if (o.getOrgId() == id) {
 
                 String[] status = o.getFinancialStatus();
@@ -43,20 +42,23 @@ abstract class OrgFunctionalities {
                         cont++;
                     }
                 }
-                if (cont == 3) {
+                if (cont >=3) {
                 o.setOrgRating('A');
                 org = o;
+                    System.out.println("Rating is: " + org.getOrgRating());
+                break;
                 } else if (cont >=1) {
                     o.setOrgRating('B');
                     org = o;
+                    System.out.println("Rating is: " + org.getOrgRating());
+                    break;
                 }else{
                     o.setOrgRating('C');
                     org = o;
+                    System.out.println("Rating is: " + org.getOrgRating());
+                    break;
                 }
 
-            } else {
-                System.out.println("No se encuentra esa organizacion");
-                break;
             }
         }
         return org;
